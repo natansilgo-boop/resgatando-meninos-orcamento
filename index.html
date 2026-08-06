@@ -1,0 +1,456 @@
+<title>Resgatando Meninos — Orçamento Completo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --paper: #edeeea;
+    --paper-raised: #f8f8f5;
+    --ink: #14171b;
+    --ink-soft: #585d63;
+    --accent: #2f9c81;
+    --accent-2: #8fe0c4;
+    --accent-wash: #dcf0e8;
+    --line: rgba(20,23,27,0.14);
+    --line-strong: rgba(20,23,27,0.28);
+    --card-shadow: 0 1px 2px rgba(20,23,27,0.06);
+    --brand-gradient: linear-gradient(135deg, var(--accent-2), var(--accent));
+    --chip-ink: #0d1310;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #14171b;
+      --paper-raised: #1d2126;
+      --ink: #f2f3f1;
+      --ink-soft: #a7acb1;
+      --accent: #6fd1ae;
+      --accent-2: #a7ecd3;
+      --accent-wash: #1e2f29;
+      --line: rgba(242,243,241,0.14);
+      --line-strong: rgba(242,243,241,0.28);
+      --card-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14171b;
+    --paper-raised: #1d2126;
+    --ink: #f2f3f1;
+    --ink-soft: #a7acb1;
+    --accent: #6fd1ae;
+    --accent-2: #a7ecd3;
+    --accent-wash: #1e2f29;
+    --line: rgba(242,243,241,0.14);
+    --line-strong: rgba(242,243,241,0.28);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --paper: #edeeea;
+    --paper-raised: #f8f8f5;
+    --ink: #14171b;
+    --ink-soft: #585d63;
+    --accent: #2f9c81;
+    --accent-2: #8fe0c4;
+    --accent-wash: #dcf0e8;
+    --line: rgba(20,23,27,0.14);
+    --line-strong: rgba(20,23,27,0.28);
+    --card-shadow: 0 1px 2px rgba(20,23,27,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .doc {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  h1, h2, h3 {
+    font-family: "Century Gothic", Futura, "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .eyebrow {
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  header.cover {
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 32px;
+    margin-bottom: 44px;
+  }
+  header.cover h1 {
+    font-size: 34px;
+    margin: 0 0 6px;
+    line-height: 1.15;
+  }
+  header.cover .subtitle {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+    max-width: 62ch;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .meta-row div strong { color: var(--ink); display: block; font-size: 14px; margin-bottom: 2px; }
+
+  .hero-stat {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+    padding: 22px 26px;
+    background: linear-gradient(135deg, #34a888, #1c6b57);
+    border: none;
+    border-radius: 10px;
+  }
+  .hero-stat .figure { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .hero-stat .figure .amount {
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .hero-stat .figure .label { display:block; font-size: 12px; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;}
+
+  section { margin: 52px 0; }
+  section h2 {
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+  section > .section-intro {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 68ch;
+    margin: 0 0 26px;
+  }
+
+  /* Horizontal timeline stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    margin: 0 0 18px;
+  }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 0 0 auto; }
+  .step .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+    border: 3px solid var(--accent-wash);
+  }
+  .step .step-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .step-line { flex: 1 1 auto; height: 2px; background: var(--line-strong); margin: 0 6px 22px; }
+
+  .phase-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .phase-col {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--paper-raised);
+    box-shadow: var(--card-shadow);
+    padding: 18px 20px 20px;
+  }
+  .phase-col .phase-eyebrow {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .phase-col h3 {
+    font-size: 18px;
+    margin: 0 0 12px;
+  }
+  .phase-col ul {
+    margin: 0 0 16px;
+    padding-left: 18px;
+    font-size: 14px;
+    color: var(--ink);
+    flex: 1;
+  }
+  .phase-col ul li { margin-bottom: 6px; }
+  .phase-col .phase-price-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin: auto 0 8px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line-strong);
+  }
+  .phase-col .phase-price {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--brand-gradient);
+    color: var(--chip-ink);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 17px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 700px) {
+    .stepper { display: none; }
+    .phase-row { grid-template-columns: 1fr; }
+  }
+
+  .process {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid var(--line-strong);
+    margin-left: 9px;
+  }
+  .process-step {
+    position: relative;
+    padding: 2px 0 26px 26px;
+  }
+  .process-step:last-child { padding-bottom: 2px; }
+  .process-step::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+    border: 2px solid var(--paper);
+  }
+  .process-step .step-month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .process-step h4 {
+    font-family: "Century Gothic", Futura, "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    font-size: 16.5px;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+  .process-step p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .table-wrap { overflow-x: auto; }
+  .totals-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .totals-table td { padding: 13px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .totals-table td.desc { color: var(--ink-soft); font-size: 13.5px; padding-top: 15px; }
+  .totals-table td.num { text-align: right; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .totals-table tr.grand td { border-top: 2px solid var(--line-strong); border-bottom: none; font-weight: 700; font-size: 17px; padding-top: 16px; }
+  .totals-table tr.grand td.num { color: var(--accent); }
+
+  .note {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 14px;
+    margin-top: 18px;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 560px) {
+    header.cover h1 { font-size: 27px; }
+    .doc { padding: 36px 16px 60px; }
+  }
+</style>
+
+<div class="doc">
+
+  <header class="cover">
+    <p class="eyebrow">Orçamento Completo — Projeto de Lançamento</p>
+    <h1>Resgatando Meninos</h1>
+    <p class="subtitle">Lançamento digital do ebook em 3 fases, uma por mês, cobrindo produção, plataforma de venda, estratégia e tráfego pago.</p>
+    <div class="meta-row">
+      <div><strong>Formato</strong>Ebook + materiais complementares (venda digital)</div>
+      <div><strong>Prazo do projeto</strong>3 meses</div>
+      <div><strong>Canais próprios</strong>@resgatandomeninos · @conselhosparaolar</div>
+      <div><strong>Data</strong>06 de agosto de 2026</div>
+    </div>
+    <div class="hero-stat">
+      <div class="figure">
+        <span class="label">Pagamento à vista</span>
+        <span class="amount">R$ 8.000</span>
+      </div>
+      <div class="figure">
+        <span class="label">Pagamento parcelado — 3x</span>
+        <span class="amount">R$ 2.800 / mês</span>
+      </div>
+      <div class="figure">
+        <span class="label">Verba de mídia (paga à parte)</span>
+        <span class="amount">R$ 700 – 1.000 / mês</span>
+      </div>
+    </div>
+  </header>
+
+  <section id="timeline">
+    <p class="eyebrow">Como o projeto acontece</p>
+    <h2>Linha do tempo — 3 fases</h2>
+    <p class="section-intro">Cada fase dura um mês, entrega uma parte do projeto e corresponde a uma parcela do investimento.</p>
+
+    <div class="stepper">
+      <div class="step"><span class="dot"></span><span class="step-label">Mês 1</span></div>
+      <div class="step-line"></div>
+      <div class="step"><span class="dot"></span><span class="step-label">Mês 2</span></div>
+      <div class="step-line"></div>
+      <div class="step"><span class="dot"></span><span class="step-label">Mês 3</span></div>
+    </div>
+
+    <div class="phase-row">
+      <div class="phase-col">
+        <div class="phase-eyebrow">Mês 1</div>
+        <h3>Fundação</h3>
+        <ul>
+          <li>Ebook, atividades, mini ebook, criativos e vídeos com a identidade visual aplicada</li>
+          <li>Loja no ar: conta Kiwify, área de membros e página de vendas configuradas</li>
+        </ul>
+        <div class="phase-price-label">Valor da fase</div>
+        <div class="phase-price">R$ 2.800</div>
+      </div>
+      <div class="phase-col">
+        <div class="phase-eyebrow">Mês 2</div>
+        <h3>Estratégia e aquecimento</h3>
+        <ul>
+          <li>Plano de lançamento com cronograma completo</li>
+          <li>Conteúdo de aquecimento em @resgatandomeninos e @conselhosparaolar</li>
+          <li>Captação de lista com o mini ebook como isca</li>
+          <li>Início da gestão de tráfego pago, focada em gerar leads</li>
+        </ul>
+        <div class="phase-price-label">Valor da fase</div>
+        <div class="phase-price">R$ 2.800</div>
+      </div>
+      <div class="phase-col">
+        <div class="phase-eyebrow">Mês 3</div>
+        <h3>Lançamento e entrega</h3>
+        <ul>
+          <li>Carrinho aberto com tráfego pago focado em conversão</li>
+          <li>Sequência de e-mail/WhatsApp de vendas</li>
+          <li>Entrega e suporte aos compradores, remarketing para quem não converteu</li>
+        </ul>
+        <div class="phase-price-label">Valor da fase</div>
+        <div class="phase-price">R$ 2.800</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="processo">
+    <p class="eyebrow">Do fechamento à entrega</p>
+    <h2>Como vai funcionar, passo a passo</h2>
+    <p class="section-intro">Detalhamento de cada etapa do projeto, na ordem em que acontece — do fechamento do contrato até a entrega final ao público.</p>
+    <div class="process">
+      <div class="process-step">
+        <div class="step-month">Mês 1</div>
+        <h4>Fechamento e contrato</h4>
+        <p>Aprovação deste orçamento, assinatura do contrato e definição da forma de pagamento (à vista ou nas 3 parcelas).</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 1</div>
+        <h4>Análise e alinhamento</h4>
+        <p>Revisão de tudo o que já existe (textos e referências), briefing final e definição do prazo de cada entrega com a cliente.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 1</div>
+        <h4>Criação do material</h4>
+        <p>Diagramação e ilustração do ebook, das atividades, do mini ebook, dos criativos e dos vídeos, seguindo a identidade visual definida.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 1</div>
+        <h4>Revisão e aprovação</h4>
+        <p>Envio do material para avaliação da cliente, rodada de ajustes e fechamento da versão final de tudo.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 1</div>
+        <h4>Estrutura de venda</h4>
+        <p>Configuração da conta na Kiwify, montagem da área de membros, criação da página de vendas e integrações de pagamento.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 2</div>
+        <h4>Plano de lançamento</h4>
+        <p>Definição da oferta, dos gatilhos e do cronograma completo de pré-lançamento e lançamento.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 2</div>
+        <h4>Aquecimento</h4>
+        <p>Conteúdo publicado em @resgatandomeninos e @conselhosparaolar preparando o público — sem vender ainda.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 2</div>
+        <h4>Captação de lista</h4>
+        <p>Mini ebook como isca digital para captar contatos, com a gestão de tráfego pago já ligada e voltada a gerar leads.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 3</div>
+        <h4>Carrinho aberto</h4>
+        <p>Tráfego pago focado em conversão e sequência de e-mail/WhatsApp de vendas durante o período de lançamento.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-month">Mês 3</div>
+        <h4>Entrega e suporte</h4>
+        <p>Liberação de acesso a quem comprou, suporte pós-venda e remarketing para quem não converteu nessa rodada.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="resumo">
+    <p class="eyebrow">Consolidado</p>
+    <h2>Resumo do investimento</h2>
+    <div class="table-wrap">
+      <table class="totals-table">
+        <tr><td>Fase 1 — Fundação<div class="desc">Material completo + loja pronta para vender</div></td><td class="num">R$ 2.800</td></tr>
+        <tr><td>Fase 2 — Estratégia e aquecimento<div class="desc">Plano de lançamento, conteúdo e captação de lista</div></td><td class="num">R$ 2.800</td></tr>
+        <tr><td>Fase 3 — Lançamento e entrega<div class="desc">Carrinho aberto, vendas e suporte pós-venda</div></td><td class="num">R$ 2.800</td></tr>
+        <tr class="grand"><td>Total parcelado (3x)</td><td class="num">R$ 8.400</td></tr>
+      </table>
+    </div>
+    <p class="note">Pagando à vista, o total fica em R$ 8.000. Inclui 1 ano de suporte para alterações básicas do material após a entrega. Verba de mídia (sugestão de R$ 700–1.000/mês) é paga direto pela cliente na plataforma de anúncios e fica fora deste total.</p>
+  </section>
+
+  <footer>
+    Orçamento completo do projeto Resgatando Meninos · valores em R$ (BRL).
+  </footer>
+
+</div>

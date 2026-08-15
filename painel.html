@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Resgatando Meninos — Painel do Projeto</title>
+<style>
+  :root{
+    --bg:#14171A;
+    --card:#1B1F23;
+    --card-2:#20252A;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.16);
+    --text:#F5F5F0;
+    --text-dim:#9CA3AF;
+    --teal:#34D9A8;
+    --teal-dark:#0F6E56;
+    --amber:#EF9F27;
+    --amber-dark:#412402;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:32px 20px 80px;
+  }
+  .wrap{max-width:820px;margin:0 auto;}
+  .eyebrow{
+    font-family:"SF Mono",ui-monospace,Menlo,monospace;
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--teal);font-weight:600;margin-bottom:8px;
+  }
+  h1{font-size:28px;margin:0 0 6px;font-weight:700;}
+  .sub{color:var(--text-dim);font-size:14px;margin:0 0 24px;line-height:1.5;}
+
+  .progress-card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:20px 22px;margin-bottom:28px;
+  }
+  .progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .progress-pct{font-size:26px;font-weight:700;}
+  .progress-label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;font-family:"SF Mono",ui-monospace,monospace;}
+  .bar-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden;}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--teal-dark),var(--teal));border-radius:4px;transition:width 0.3s ease;}
+  .legend{display:flex;gap:16px;margin-top:14px;font-size:12px;color:var(--text-dim);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:8px;height:8px;border-radius:2px;display:inline-block;}
+  .dot.content{background:var(--teal);}
+  .dot.tech{background:var(--amber);}
+
+  details{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    margin-bottom:10px;overflow:hidden;
+  }
+  summary{
+    list-style:none;cursor:pointer;padding:14px 18px;display:flex;
+    align-items:center;justify-content:space-between;gap:12px;
+  }
+  summary::-webkit-details-marker{display:none;}
+  .week-head{display:flex;align-items:center;gap:12px;}
+  .week-num{
+    font-family:"SF Mono",ui-monospace,monospace;font-size:11px;color:var(--teal);
+    letter-spacing:0.05em;
+  }
+  .week-title{font-size:15px;font-weight:600;}
+  .week-dates{font-size:12px;color:var(--text-dim);}
+  .week-progress{
+    font-family:"SF Mono",ui-monospace,monospace;font-size:11px;color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .chev{transition:transform 0.2s ease;color:var(--text-dim);}
+  details[open] .chev{transform:rotate(90deg);}
+
+  .items{padding:0 18px 14px;border-top:1px solid var(--border);}
+  .item{
+    display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+  }
+  .item:last-child{border-bottom:none;}
+  .item input[type=checkbox]{
+    appearance:none;width:18px;height:18px;border-radius:5px;
+    border:1.5px solid var(--border-strong);background:transparent;
+    flex-shrink:0;margin-top:1px;cursor:pointer;position:relative;
+  }
+  .item input[type=checkbox]:checked{background:var(--teal);border-color:var(--teal);}
+  .item input[type=checkbox]:checked::after{
+    content:"";position:absolute;left:5px;top:1px;width:5px;height:9px;
+    border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg);
+  }
+  .item label{font-size:14px;line-height:1.4;cursor:pointer;flex:1;}
+  .item.checked label{color:var(--text-dim);text-decoration:line-through;}
+  .tag{
+    font-family:"SF Mono",ui-monospace,monospace;font-size:9px;letter-spacing:0.04em;
+    text-transform:uppercase;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:1px;
+  }
+  .tag.content{background:rgba(52,217,168,0.12);color:var(--teal);}
+  .tag.tech{background:rgba(239,159,39,0.14);color:var(--amber);}
+
+  .reset{
+    margin-top:24px;background:transparent;border:1px solid var(--border-strong);
+    color:var(--text-dim);font-size:12px;padding:8px 14px;border-radius:8px;cursor:pointer;
+  }
+  .reset:hover{color:var(--text);border-color:var(--text-dim);}
+  .status{font-size:11px;color:var(--text-dim);margin-top:8px;min-height:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Painel do Projeto</div>
+  <h1>Resgatando Meninos</h1>
+  <p class="sub">Checklist completo das 12 semanas — conteúdo e itens técnicos (acessos, contas, integrações). Marque o que já foi feito; fica salvo automaticamente neste navegador.</p>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="progress-pct" id="pct">0%</span>
+      <span class="progress-label" id="count">0 / 0 concluídos</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="bar" style="width:0%"></div></div>
+    <div class="legend">
+      <span><span class="dot content"></span>Conteúdo</span>
+      <span><span class="dot tech"></span>Técnico / acesso</span>
+    </div>
+  </div>
+
+  <div id="weeks"></div>
+
+  <button class="reset" id="resetBtn">Zerar todos os checks</button>
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+const WEEKS = [
+  {
+    num: "Fase 0", dates: "13/08 – 16/08", title: "Fechamento e recebimento de materiais",
+    items: [
+      ["f0-contrato","Contrato assinado e 1ª parcela paga","content",true],
+      ["f0-recebidos","Materiais recebidos conferidos (manuscrito, devocional, guia, jogos, pôsteres, atividades 9-12)","content",true]
+    ]
+  },
+  {
+    num: "Semana 1", dates: "17/08 – 23/08", title: "Identidade visual e ebook completo",
+    items: [
+      ["s1-identidade","Identidade visual definitiva (paleta, tipografia, ícones)","content",false],
+      ["s1-referencias","Busca de referências","content",false],
+      ["s1-ebook","Diagramação do ebook — páginas 1 a 120","content",false],
+      ["s1-capa","Capa — conceito e versão final","content",false],
+      ["s1-revisao","Revisão de consistência visual do ebook completo","content",false],
+      ["s1-aprovacao","Aprovação do ebook e ajustes","content",false],
+      ["s1-bm","Acesso solicitado ao Business Manager (Meta) da Kátia","tech",false],
+      ["s1-cnpj","CNPJ/documentos da Kátia solicitados, caso o Meta peça verificação da empresa no BM","tech",false]
+    ]
+  },
+  {
+    num: "Semana 2", dates: "24/08 – 30/08", title: "Devocional, guia e atividades",
+    items: [
+      ["s2-devocional","Devocional de 30 dias — diagramação final","content",false],
+      ["s2-guia","Guia do Homem de Referência — diagramação final","content",false],
+      ["s2-atividades","Atividades — diagramação","content",false]
+    ]
+  },
+  {
+    num: "Semana 3", dates: "31/08 – 06/09", title: "Jogos, pôsteres e fechamento da diagramação",
+    items: [
+      ["s3-memoria","Jogo da memória — versão final de impressão","content",false],
+      ["s3-guerreiro","Montando Meu Guerreiro — versão final de impressão","content",false],
+      ["s3-posteres","Pôsteres das 12 regras — diagramação final","content",false],
+      ["s3-fechamento","Fechamento definitivo de toda a diagramação (ebook, devocional, guia, atividades, jogos e pôsteres)","content",false]
+    ]
+  },
+  {
+    num: "Semana 4", dates: "07/09 – 13/09", title: "Revisões, cobranças e diagramação final",
+    items: [
+      ["s4-revisoes","Revisões e cobranças de pendências","content",false],
+      ["s4-diagramacao-final","Diagramação final","content",false]
+    ]
+  },
+  {
+    num: "Semana 5", dates: "14/09 – 20/09", title: "Página de vendas: fluxo completo",
+    items: [
+      ["s5-desenho","Desenho da página de vendas (wireframe e layout)","content",false],
+      ["s5-criativos","Criativos e copy da página","content",false],
+      ["s5-orderbumps","Criação dos order bumps","content",false],
+      ["s5-implementacao","Implementação da página de vendas","tech",false],
+      ["s5-checkout","Configuração do checkout","tech",false],
+      ["s5-obrigado","Página de obrigado configurada","tech",false],
+      ["s5-estrategia","Início da estruturação do plano de lançamento e estratégia (próxima fase)","content",false]
+    ]
+  },
+  {
+    num: "Semana 6", dates: "21/09 – 27/09", title: "Estrutura de venda",
+    items: [
+      ["s6-kiwify","Conta Kiwify criada (pela Kátia) com acesso de colaborador liberado","tech",false],
+      ["s6-hospedagem","Configuração da hospedagem","tech",false],
+      ["s6-dominio","Domínio próprio configurado (se for usar, fora do link padrão da Kiwify)","tech",false],
+      ["s6-membros","Área de membros montada, com todos os materiais organizados (ebook, devocional, guia, jogos, pôsteres, atividades)","tech",false],
+      ["s6-vendas","Página de vendas configurada (copy, preço e checkout)","tech",false],
+      ["s6-pagamento","Integrações de pagamento testadas com compra simulada ponta a ponta","tech",false]
+    ]
+  },
+  {
+    num: "Semana 7", dates: "28/09 – 04/10", title: "Plano de lançamento e criativos",
+    items: [
+      ["s7-plano","Plano de lançamento e cronograma de aquecimento","content",false],
+      ["s7-criativos","Início da produção dos 30 criativos","content",false],
+      ["s7-adsaccount","Conta de anúncios (Ads Account) vinculada ao Business Manager","tech",false],
+      ["s7-pagamento-ads","Verba de mídia cadastrada no gerenciador de anúncios (Kátia só precisa colocar o saldo)","tech",false],
+      ["s7-pixel","Pixel do Meta gerado e instalado na página de vendas","tech",false],
+      ["s7-verificacao","Verificação de negócio no Business Manager concluída (se pedida pelo Meta)","tech",false]
+    ]
+  },
+  {
+    num: "Semana 8", dates: "05/10 – 12/10", title: "Vídeos e preparação do aquecimento",
+    items: [
+      ["s8-videos","Produção dos 12 vídeos para vender junto","content",false],
+      ["s8-aquecimento-prep","Preparação do conteúdo de aquecimento","content",false],
+      ["s8-whatsapp","Número de WhatsApp Business da Kátia com acesso liberado (ou ferramenta de disparo configurada)","tech",false]
+    ]
+  },
+  {
+    num: "Semana 9", dates: "13/10 – 27/10 (15 dias)", title: "Tráfego pago — aquecimento",
+    items: [
+      ["s9-aquecimento2","Publicação do conteúdo de aquecimento nos perfis","content",false],
+      ["s9-captacao","Captação de lista ativada (mini ebook/isca)","content",false],
+      ["s9-trafego-leads","Tráfego pago voltado a leads rodando","content",false],
+      ["s9-email","Ferramenta de e-mail marketing configurada (se for usada na sequência)","tech",false]
+    ]
+  },
+  {
+    num: "Semana 10", dates: "28/10 – 29/10", title: "Lançamento",
+    items: [
+      ["s10-carrinho","Abertura do carrinho de vendas","content",false],
+      ["s10-trafego-conv","Tráfego pago migrando para conversão","content",false],
+      ["s10-sequencia","Sequência de e-mail/WhatsApp de vendas disparada","content",false],
+      ["s10-entrega","Entrega de acesso aos compradores","content",false]
+    ]
+  },
+  {
+    num: "Semana 11", dates: "30/10 – 13/11 (15 dias)", title: "Remarketing e encerramento",
+    items: [
+      ["s11-suporte","Suporte pós-venda ativo","content",false],
+      ["s11-remarketing","Remarketing básico para quem não converteu","content",false],
+      ["s11-decisao","Decisão: continuar com novo escopo/valor ou encerrar o projeto","content",false]
+    ]
+  }
+];
+
+let state = {};
+const STORAGE_KEY = "resgatando-meninos-checklist";
+
+function defaultState(){
+  const s = {};
+  WEEKS.forEach(w => w.items.forEach(it => { s[it[0]] = it[3]; }));
+  return s;
+}
+
+function render(){
+  const container = document.getElementById("weeks");
+  container.innerHTML = "";
+  WEEKS.forEach((w, idx) => {
+    const total = w.items.length;
+    const done = w.items.filter(it => state[it[0]]).length;
+    const det = document.createElement("details");
+    if(idx === 0 || (done < total && idx <= WEEKS.findIndex(x => x.items.some(it => !state[it[0]])))) det.open = false;
+    det.innerHTML = `
+      <summary>
+        <div class="week-head">
+          <div>
+            <div class="week-num">${w.num} · ${w.dates}</div>
+            <div class="week-title">${w.title}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="week-progress">${done}/${total}</span>
+          <span class="chev">&#9656;</span>
+        </div>
+      </summary>
+      <div class="items">
+        ${w.items.map(it => {
+          const [id, label, type] = it;
+          const checked = state[id];
+          return `<div class="item ${checked ? "checked" : ""}" data-id="${id}">
+            <input type="checkbox" id="${id}" ${checked ? "checked" : ""}>
+            <label for="${id}">${label}</label>
+            <span class="tag ${type}">${type === "tech" ? "Técnico" : "Conteúdo"}</span>
+          </div>`;
+        }).join("")}
+      </div>
+    `;
+    container.appendChild(det);
+  });
+
+  container.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      state[cb.id] = cb.checked;
+      save();
+      render();
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress(){
+  const allItems = WEEKS.flatMap(w => w.items);
+  const total = allItems.length;
+  const done = allItems.filter(it => state[it[0]]).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById("pct").textContent = pct + "%";
+  document.getElementById("count").textContent = done + " / " + total + " concluídos";
+  document.getElementById("bar").style.width = pct + "%";
+}
+
+function save(){
+  const statusEl = document.getElementById("status");
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    statusEl.textContent = "";
+  }catch(e){
+    statusEl.textContent = "Não foi possível salvar agora — tente novamente.";
+  }
+}
+
+function load(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      state = { ...defaultState(), ...JSON.parse(raw) };
+    } else {
+      state = defaultState();
+    }
+  }catch(e){
+    state = defaultState();
+  }
+  render();
+  updateProgress();
+}
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  state = defaultState();
+  save();
+  render();
+  updateProgress();
+});
+
+load();
+</script>
+</body>
+</html>
